@@ -44,15 +44,10 @@ while True:
 			if res == '':
 				continue
 			else:
-				restart()
+				continue
 
 		elif opt == 2:
 			dbs.addEntry()
-			# res = str(input("\nPress [Enter] to continue"))
-			# if res == '':
-			# 	continue
-			# else:
-			# 	continue
 
 		elif opt == 3:
 			confirmation = str(input(red +"Are you sure about deleting entries [y/n] ?\n>>> "+blue)).upper()
