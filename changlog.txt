@@ -1,0 +1,23 @@
+========================================== WinPassBase ==========================================
+Version : 1.0
+
+Developer : Fr34K
+
+Interface:
+	Command Line Interface (CLI)
+
+Core Features:
+	1. Lists Credentials
+	2. Adds Credentials
+	3. Deletes Credentials
+	4. Flushes (resets) the existing database
+
+Database:
+	SQLite3 database
+
+Encryption:
+	Secure Hashing Algorithm (SHA) 512
+
+Modules:
+	Pre-built: OS,SYS,Time
+	Custom: Wincore

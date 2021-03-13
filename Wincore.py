@@ -1,29 +1,6 @@
-# tasks
-# 1. fetch data
-# 2. Incert data
-# 3. Delete data
-# 4. Show the path of the dbs
-# 5. About section
-# 6. MD5 hash decryption
-
-# Version 1.0
-# Project-type 		   ===> Open Source
-# Development-initiated ==> 3/2/21
-# Developer 			=>	Fr34K
-
-# Necessary Variables
-
-#String literels
-Id = "id"
-web = "website"
-mail = "email"
-uname = "username"
-passwd = "password"
-
-#Color
-red='\033[1;31m'
-green='\033[1;32m'
-blue='\033[1;34m'
+# -*- coding: utf-8 -*-
+# Version 1.1
+# Author : [ Fr34K ]
 
 # Necessary Modules
 import sqlite3
@@ -31,8 +8,22 @@ import os
 import hashlib 
 import time
 
+# Necessary Variables
+#Color
+red='\033[1;31m'
+green='\033[1;32m'
+blue='\033[1;34m'
+
+#Path to dbs
+path = "database.db"
+
+#Icons
+success = blue + "[" + green + "*" + blue + "]"
+error = blue + "[" + red + "!" + blue + "]"
+info = blue + "[" + green + "?" + blue + "]"
+
 # Creating Connection object to connect with the database
-connection = sqlite3.connect('database.db')
+connection = sqlite3.connect(path)
 
 # Creating the Cursor object to execute SQL statements
 cursor = connection.cursor()
@@ -44,22 +35,21 @@ class passBase:
 		
 	# Data Extraction 
 	def extractEntries(self):
-		os.system("cls")
 		sql = "SELECT * FROM Database"
 		cursor.execute(sql)
 		connection.commit()
 		entries = cursor.fetchall()
-		print(green + f'''{Id.upper().ljust(10)} {web.upper().ljust(15)} {uname.upper().ljust(25)} {mail.upper().ljust(35)}  {passwd.upper().ljust(50)}\n''' + blue)
+		print(green + f'''{"id".upper().ljust(10)} {"website".upper().ljust(15)} {"username".upper().ljust(25)} {"email".upper().ljust(35)}  {"password".upper().ljust(50)}\n''' + blue)
 		for i in range(len(entries)):
 			itemList = list(entries[i])
 			#print(str(itemList[0])+"  "+str(itemList[1])+"  "+str(itemList[2])+"  "+str(itemList[3])+"  "+str(itemList[4]))
-			print(f'''{str(itemList[0]).ljust(10)} {str(itemList[1]).ljust(15)} {str(itemList[2]).ljust(25)} {str(itemList[3]).ljust(35)}   {str(itemList[4]).ljust(50)}''' + blue)
+			print(f'''{blue + str(itemList[0]).ljust(10) +green} {str(itemList[1]).ljust(15)} {str(itemList[2]).ljust(25)} {str(itemList[3]).ljust(35)}   {str(itemList[4]).ljust(50)}''' + blue)
 			
 	# Adding Entries
 	def addEntry(self):
-		os.system("cls")
 		while True:
-			site = str(input(blue+"\nWebsite : ")).upper().rstrip('.COM')
+			print("\n\n"+info + green + "URL can not include "+ blue + "http://" + green + " or " + blue + "https://")
+			site = str(input(blue+"\nWebsite's URL : ")).upper().rstrip(".COM")
 			username = str(input(blue+"Username : "))
 			email = str(input(blue+"Email : "))
 			password = str(input(blue+"Password : "))
@@ -73,19 +63,19 @@ class passBase:
 			cursor.execute("""
 			INSERT INTO Database(website,username,email,password) VALUES(?, ?, ?, ?)""",credtuple)
 			connection.commit()
-			print(green+"\n	[*]"+ blue +" Successfully added all entries\n"+blue)
+			print(success + green +" Successfully added all entries\n"+blue)
 			
 			# Prompting user to continue or going back to menu
-			print("Press [a] to add entries or [Enter] to go to menu\n")
-			res = str(input(">>> "))
-			if res == '':
+			print("Commands:")
+			print(info+blue+"ADD")
+			print(info+blue+"MENU")
+			res = str(input(">>> ")).upper()
+			if res == 'MENU':
 				break
-			elif res == 'a':
+			elif res == 'ADD':
 				continue
 			else:
-				print(red+"\nInvalid Input")
-				print("Going back to menu"+blue)
-				time.sleep(3)
+				print("\n"+error +red+"Invalid Input")
 				break 
 		# 	Will add password encryption soon :)
 	
@@ -94,8 +84,8 @@ class passBase:
 		enID = int(input("Enter the ID of the entry to delete : "))
 		cursor.execute("""DELETE FROM Database WHERE id=?""",(enID,))
 		connection.commit()
-		print(green +"[*]"+ blue +" Successfully deleted the entry")
-		time.sleep(3)
+		print(success + green +" Successfully deleted the entry\n")
+			
 		# According to sqlite python documentation , execute method takes a tuple of values as arguments
 		
 	# Deleting all entries
